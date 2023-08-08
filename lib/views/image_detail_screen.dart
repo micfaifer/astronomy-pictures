@@ -4,13 +4,13 @@ import '../models/apod.dart';
 class ImageDetailScreen extends StatelessWidget {
   final Apod apodData;
 
-  ImageDetailScreen(this.apodData);
+  const ImageDetailScreen(this.apodData, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Image Detail'),
+        title: const Text('Image Detail'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -19,17 +19,17 @@ class ImageDetailScreen extends StatelessWidget {
           children: [
             if (apodData != null) ...[
               Image.network(apodData.imageUrl),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Text(
                 apodData.title,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Text(apodData.date),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Text(apodData.description),
             ] else ...[
-              CircularProgressIndicator(),
+              const CircularProgressIndicator(),
             ],
           ],
         ),

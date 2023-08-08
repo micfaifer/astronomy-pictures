@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/apod.dart';
+import '../../../models/apod.dart';
 
 class ImageDetailScreen extends StatelessWidget {
   final Apod apodData;
@@ -22,7 +22,8 @@ class ImageDetailScreen extends StatelessWidget {
               const SizedBox(height: 16),
               Text(
                 apodData.title,
-                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
               Text(apodData.date),

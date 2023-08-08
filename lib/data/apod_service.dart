@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:intl/intl.dart';
+
 import '../config.dart';
 import '../models/apod.dart';
 import 'package:http/http.dart' as http;
@@ -13,16 +15,16 @@ class ApodService {
   ApodService({http.Client? httpClient})
       : _httpClient = httpClient ?? http.Client();
 
-
-  Future<List<Apod>> getAstronomyPictures() async {
+  Future<List<Apod>> getAstronomyPictures(
+      DateTime startDate, DateTime endDate) async {
     final response = await _httpClient.get(
       Uri(
         scheme: "https",
         host: url,
         path: "planetary/apod",
         queryParameters: {
-          "start_date": "2023-07-01",
-          "end_date": "2023-07-10",
+          "start_date": DateFormat('yyyy-MM-dd').format(startDate).toString(),
+          "end_date": DateFormat('yyyy-MM-dd').format(endDate).toString(),
           "api_key": apiKey
         },
       ),

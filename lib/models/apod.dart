@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class Apod {
   final String title;
   final String date;

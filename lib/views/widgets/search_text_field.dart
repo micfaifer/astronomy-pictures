@@ -6,10 +6,10 @@ class SearchTextField extends StatefulWidget {
   const SearchTextField({Key? key, required this.onChanged}) : super(key: key);
 
   @override
-  _SearchTextFieldState createState() => _SearchTextFieldState();
+  SearchTextFieldState createState() => SearchTextFieldState();
 }
 
-class _SearchTextFieldState extends State<SearchTextField> {
+class SearchTextFieldState extends State<SearchTextField> {
   final TextEditingController _textEditingController = TextEditingController();
 
   @override

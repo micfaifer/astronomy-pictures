@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:astronomy_pictures/views/search_view.dart';
+import 'package:astronomy_pictures/views/widgets/search_text_field.dart';
 import 'package:provider/provider.dart';
-import '../viewmodels/apod_viewmodel.dart';
+import '../../viewmodels/apod_viewmodel.dart';
 
 class SearchAppBar extends StatelessWidget implements PreferredSizeWidget {
   const SearchAppBar({Key? key}) : super(key: key);

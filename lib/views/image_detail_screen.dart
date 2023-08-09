@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../models/apod.dart';
+import '../models/apod.dart';
 
 class ImageDetailScreen extends StatelessWidget {
   final Apod apodData;

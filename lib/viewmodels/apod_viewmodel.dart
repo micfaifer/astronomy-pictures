@@ -1,35 +1,17 @@
-import 'package:astronomy_pictures/data/apod_service.dart';
+import 'package:astronomy_pictures/data/data_manager.dart';
 import 'package:astronomy_pictures/models/apod.dart';
 import 'package:flutter/material.dart';
 
 class ApodViewModel extends ChangeNotifier {
-  final ApodService _apodService;
+  final DataManager _apodDataManager;
+
+  ApodViewModel({required DataManager dataManager})
+      : _apodDataManager = dataManager;
 
   String _searchTerm = "";
-
   List<Apod>? _apodList;
 
-  ApodViewModel({required ApodService apodService})
-      : _apodService = apodService;
-
-  late DateTimeRange _selectedDateRange = DateTimeRange(
-      start: DateTime.now().subtract(const Duration(days: 7)),
-      end: DateTime.now());
-
   DateTimeRange get selectedDateRange => _selectedDateRange;
-
-  set selectedDateRange(DateTimeRange value) {
-    if (_selectedDateRange != value) {
-      _selectedDateRange = value;
-      fetchAstronomyPictureOfTheDay();
-      notifyListeners();
-    }
-  }
-
-  final DateTimeRange _availableDateTimeRange = DateTimeRange(
-      start: DateTime.now().subtract(const Duration(days: 30)),
-      end: DateTime.now());
-
   DateTimeRange get availableDateTimeRange => _availableDateTimeRange;
 
   List<Apod>? get apodList {
@@ -43,9 +25,29 @@ class ApodViewModel extends ChangeNotifier {
     return filteredList;
   }
 
-  Future<void> fetchAstronomyPictureOfTheDay() async {
-    _apodList = await _apodService.getAstronomyPictures(
-        _selectedDateRange.start, _selectedDateRange.end);
+  late DateTimeRange _selectedDateRange = DateTimeRange(
+    start: DateTime.now().subtract(const Duration(days: 7)),
+    end: DateTime.now(),
+  );
+
+  final DateTimeRange _availableDateTimeRange = DateTimeRange(
+    start: DateTime.now().subtract(const Duration(days: 30)),
+    end: DateTime.now(),
+  );
+
+  set selectedDateRange(DateTimeRange value) {
+    if (_selectedDateRange != value) {
+      _selectedDateRange = value;
+      getAstronomyPictures();
+      notifyListeners();
+    }
+  }
+
+  Future<void> getAstronomyPictures() async {
+    _apodList = await _apodDataManager.getAstronomyPictures(
+      _selectedDateRange.start,
+      _selectedDateRange.end,
+    );
     notifyListeners();
   }
 

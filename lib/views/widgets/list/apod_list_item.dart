@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:astronomy_pictures/models/apod.dart';
-import 'details/image_detail_screen.dart';
+import '../../image_detail_screen.dart';
 
 class ApodListItem extends StatelessWidget {
   final Apod apodData;

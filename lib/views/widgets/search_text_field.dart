@@ -11,8 +11,7 @@ class SearchTextField extends StatefulWidget {
 
 class _SearchTextFieldState extends State<SearchTextField> {
   final TextEditingController _textEditingController = TextEditingController();
-  bool _showClearButton = false;
-  
+
   @override
   void initState() {
     super.initState();
@@ -24,10 +23,9 @@ class _SearchTextFieldState extends State<SearchTextField> {
     _textEditingController.dispose();
     super.dispose();
   }
+
   void _onTextChanged() {
-    setState(() {
-      _showClearButton = _textEditingController.text.isNotEmpty;
-    });
+    setState(() {});
   }
 
   @override
@@ -46,18 +44,17 @@ class _SearchTextFieldState extends State<SearchTextField> {
         contentPadding: const EdgeInsets.symmetric(horizontal: 8),
         suffixIcon: _textEditingController.text.isNotEmpty
             ? IconButton(
-          icon: const Icon(Icons.clear),
-          onPressed: () {
-            setState(() {
-              _textEditingController.clear();
-              widget.onChanged('');
-            });
-          },
-        )
+                icon: const Icon(Icons.clear),
+                onPressed: () {
+                  setState(() {
+                    _textEditingController.clear();
+                    widget.onChanged('');
+                  });
+                },
+              )
             : null,
       ),
       onChanged: widget.onChanged,
     );
   }
 }
-

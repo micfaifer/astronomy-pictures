@@ -51,8 +51,9 @@ class ApodViewModel extends ChangeNotifier {
   }
 
   Future<void> getAstronomyPictures() async {
+    _error = "";
+
     try {
-      _error = "";
       _isFetchingData = true;
       _apodList = await _apodDataManager.getAstronomyPictures(
         _selectedDateRange.start,
@@ -60,17 +61,20 @@ class ApodViewModel extends ChangeNotifier {
       );
     } on RemoteDataException catch (e) {
       _error = e.message;
-      notifyListeners();
-      try {
-        _apodList = await _apodDataManager.getLocalAstronomyPictures();
-      } on LocalDataException catch (e) {
-        _error = e.message;
-      }
+      await _loadLocalDataOnFailure();
     } catch (e) {
       _error = "An unexpected error occurred.";
     } finally {
       _isFetchingData = false;
       notifyListeners();
+    }
+  }
+
+  Future<void> _loadLocalDataOnFailure() async {
+    try {
+      _apodList = await _apodDataManager.getLocalAstronomyPictures();
+    } on LocalDataException catch (e) {
+      _error = e.message;
     }
   }
 

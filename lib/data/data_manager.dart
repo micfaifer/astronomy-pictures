@@ -7,20 +7,20 @@ import 'data_exceptions.dart';
 
 class DataManager {
   final ApodService _apiService;
+  final SharedPreferences _sharedPreferences;
 
-  DataManager(this._apiService);
+  DataManager(this._apiService, this._sharedPreferences);
 
   Future<List<Apod>> getAstronomyPictures(
       DateTime startDate, DateTime endDate) async {
     try {
       final apodList =
-          await _apiService.getAstronomyPictures(startDate, endDate);
-      final sharedPreferences = await SharedPreferences.getInstance();
+      await _apiService.getAstronomyPictures(startDate, endDate);
       final List<String> apodStringList = apodList.map((apod) {
         final json = apod.toJson();
         return jsonEncode(json);
       }).toList();
-      await sharedPreferences.setStringList('apodList', apodStringList);
+      await _sharedPreferences.setStringList('apodList', apodStringList);
       return apodList;
     } catch (e) {
       throw RemoteDataException();
@@ -28,9 +28,8 @@ class DataManager {
   }
 
   Future<List<Apod>> getLocalAstronomyPictures() async {
-    final sharedPreferences = await SharedPreferences.getInstance();
     final List<String>? apodStringList =
-        sharedPreferences.getStringList('apodList');
+    _sharedPreferences.getStringList('apodList');
     if (apodStringList != null) {
       return apodStringList.map((jsonString) {
         final json = jsonDecode(jsonString);

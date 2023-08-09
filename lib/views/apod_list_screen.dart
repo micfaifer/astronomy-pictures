@@ -1,7 +1,5 @@
-import 'package:astronomy_pictures/data/apod_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../data/data_manager.dart';
 import '../viewmodels/apod_viewmodel.dart';
 import 'widgets/list/apod_list_item.dart';
 import 'widgets/search_app_bar.dart';
@@ -11,13 +9,9 @@ class ApodListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) =>
-          ApodViewModel(dataManager: DataManager(ApodService())),
-      child: const Scaffold(
-        appBar: SearchAppBar(),
-        body: ApodListView(),
-      ),
+    return const Scaffold(
+      appBar: SearchAppBar(),
+      body: ApodListView(),
     );
   }
 }

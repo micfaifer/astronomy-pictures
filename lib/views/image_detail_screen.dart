@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../models/apod.dart';
 
@@ -18,7 +19,12 @@ class ImageDetailScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (apodData != null) ...[
-              Image.network(apodData.imageUrl),
+              CachedNetworkImage(
+                imageUrl: apodData.imageUrl,
+                placeholder: (context, url) =>
+                    const CircularProgressIndicator(),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
+              ),
               const SizedBox(height: 16),
               Text(
                 apodData.title,

@@ -14,6 +14,9 @@ class ApodViewModel extends ChangeNotifier {
   DateTimeRange get selectedDateRange => _selectedDateRange;
   DateTimeRange get availableDateTimeRange => _availableDateTimeRange;
 
+  bool _isFetchingData = false;
+  bool get isFetchingData => _isFetchingData;
+
   List<Apod>? get apodList {
     if (_searchTerm.isEmpty) {
       return _apodList;
@@ -44,11 +47,16 @@ class ApodViewModel extends ChangeNotifier {
   }
 
   Future<void> getAstronomyPictures() async {
-    _apodList = await _apodDataManager.getAstronomyPictures(
-      _selectedDateRange.start,
-      _selectedDateRange.end,
-    );
-    notifyListeners();
+    try {
+      _isFetchingData = true;
+      _apodList = await _apodDataManager.getAstronomyPictures(
+        _selectedDateRange.start,
+        _selectedDateRange.end,
+      );
+    } finally {
+      _isFetchingData = false;
+      notifyListeners();
+    }
   }
 
   Future<void> searchByTerm(String searchTerm) async {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../models/apod.dart';
 import '../viewmodels/apod_viewmodel.dart';
 import 'widgets/list/apod_list_item.dart';
 
@@ -30,7 +29,7 @@ class _ApodListViewState extends State<ApodListView> {
         return RefreshIndicator(
           onRefresh: () => _refreshData(context),
           child: Center(
-            child: viewModel.apodList == null
+            child: viewModel.isFetchingData
                 ? const CircularProgressIndicator()
                 : ListView.builder(
                     itemCount: viewModel.apodList?.length,

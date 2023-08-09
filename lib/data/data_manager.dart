@@ -3,6 +3,8 @@ import 'package:astronomy_pictures/models/apod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
+import 'data_exceptions.dart';
+
 class DataManager {
   final ApodService _apiService;
 
@@ -12,7 +14,7 @@ class DataManager {
       DateTime startDate, DateTime endDate) async {
     try {
       final apodList =
-      await _apiService.getAstronomyPictures(startDate, endDate);
+          await _apiService.getAstronomyPictures(startDate, endDate);
       final sharedPreferences = await SharedPreferences.getInstance();
       final List<String> apodStringList = apodList.map((apod) {
         final json = apod.toJson();
@@ -21,21 +23,21 @@ class DataManager {
       await sharedPreferences.setStringList('apodList', apodStringList);
       return apodList;
     } catch (e) {
-      return _getLocalAstronomyPictures();
+      throw RemoteDataException();
     }
   }
 
-  Future<List<Apod>> _getLocalAstronomyPictures() async {
+  Future<List<Apod>> getLocalAstronomyPictures() async {
     final sharedPreferences = await SharedPreferences.getInstance();
     final List<String>? apodStringList =
-    sharedPreferences.getStringList('apodList');
+        sharedPreferences.getStringList('apodList');
     if (apodStringList != null) {
       return apodStringList.map((jsonString) {
         final json = jsonDecode(jsonString);
         return Apod.fromJson(json);
       }).toList();
+    } else {
+      throw LocalDataException();
     }
-    return [];
   }
-
 }

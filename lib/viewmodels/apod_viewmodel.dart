@@ -1,6 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:astronomy_pictures/data/data_manager.dart';
 import 'package:astronomy_pictures/models/apod.dart';
-import 'package:flutter/material.dart';
+import '../data/data_exceptions.dart';
 
 class ApodViewModel extends ChangeNotifier {
   final DataManager _apodDataManager;
@@ -10,12 +11,15 @@ class ApodViewModel extends ChangeNotifier {
 
   String _searchTerm = "";
   List<Apod>? _apodList;
+  String _error = "";
+  bool _isFetchingData = false;
+
+  String get error => _error;
+  bool get hasError => _error.isNotEmpty;
+  bool get isFetchingData => _isFetchingData;
 
   DateTimeRange get selectedDateRange => _selectedDateRange;
   DateTimeRange get availableDateTimeRange => _availableDateTimeRange;
-
-  bool _isFetchingData = false;
-  bool get isFetchingData => _isFetchingData;
 
   List<Apod>? get apodList {
     if (_searchTerm.isEmpty) {
@@ -48,11 +52,22 @@ class ApodViewModel extends ChangeNotifier {
 
   Future<void> getAstronomyPictures() async {
     try {
+      _error = "";
       _isFetchingData = true;
       _apodList = await _apodDataManager.getAstronomyPictures(
         _selectedDateRange.start,
         _selectedDateRange.end,
       );
+    } on RemoteDataException catch (e) {
+      _error = e.message;
+      notifyListeners();
+      try {
+        _apodList = await _apodDataManager.getLocalAstronomyPictures();
+      } on LocalDataException catch (e) {
+        _error = e.message;
+      }
+    } catch (e) {
+      _error = "An unexpected error occurred.";
     } finally {
       _isFetchingData = false;
       notifyListeners();

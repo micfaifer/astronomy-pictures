@@ -68,6 +68,12 @@ This app relies on the following packages:
 - `shared_preferences`: For managing app preferences.
 - `cached_network_image`: For efficient image loading and caching.
 
+For testing, the following additional packages are used:
+
+- `flutter_test`: The official Flutter testing library.
+- `mockito`: For creating mock objects and stubbing behaviors during tests.
+
+
 ## Generating Mocks with `mockito` and `build_runner`
 
 I've used the `mockito` package for writing mock classes and `build_runner` to generate mock files. To generate mock files, run the following command in your terminal:

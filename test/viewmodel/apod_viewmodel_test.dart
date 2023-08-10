@@ -56,10 +56,6 @@ void main() {
 
   test('should update state and fetch local data on remote fetch failure',
       () async {
-    final currentDate = DateTime.now();
-    final startDate = currentDate.subtract(const Duration(days: 7));
-    final endDate = currentDate;
-
     final localApodList = [
       Apod(
         title: 'Local Title 1',

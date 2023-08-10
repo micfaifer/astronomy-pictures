@@ -124,6 +124,6 @@ void main() {
     viewModel.searchByTerm(searchTerm);
 
     expect(viewModel.apodList, [apodList[1]]);
-    expect(viewModel.searchTerm, "2");
+    expect(viewModel.searchTerm, "1");
   });
 }

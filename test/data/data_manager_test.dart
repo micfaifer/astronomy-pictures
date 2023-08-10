@@ -10,7 +10,6 @@ import 'package:astronomy_pictures/data/data_exceptions.dart';
 import 'data_manager_test.mocks.dart';
 
 @GenerateNiceMocks([MockSpec<SharedPreferences>(), MockSpec<ApodService>()])
-
 void main() {
   late DataManager dataManager;
   late MockApodService mockApodService;
@@ -44,14 +43,11 @@ void main() {
     });
 
     test('should throw RemoteDataException on service error', () async {
-      final startDate = DateTime(2023, 1, 1);
-      final endDate = DateTime(2023, 1, 7);
-
-      when(mockApodService.getAstronomyPictures(startDate, endDate))
-          .thenThrow(RemoteDataException());
-
+      when(mockApodService.getAstronomyPictures(any, any))
+          .thenAnswer((_) async => throw RemoteDataException());
       expect(() async {
-        await dataManager.getAstronomyPictures(startDate, endDate);
+        await dataManager.getAstronomyPictures(
+            DateTime.now().subtract(const Duration(days: 7)), DateTime.now());
       }, throwsA(isInstanceOf<RemoteDataException>()));
     });
   });

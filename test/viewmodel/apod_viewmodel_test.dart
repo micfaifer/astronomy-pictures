@@ -5,11 +5,9 @@ import 'package:mockito/mockito.dart';
 import 'package:astronomy_pictures/data/data_manager.dart';
 import 'package:astronomy_pictures/models/apod.dart';
 import 'package:astronomy_pictures/viewmodels/apod_viewmodel.dart';
-
 import 'apod_viewmodel_test.mocks.dart';
 
 @GenerateNiceMocks([MockSpec<DataManager>()])
-
 void main() {
   late ApodViewModel viewModel;
   late MockDataManager mockDataManager;
@@ -56,7 +54,8 @@ void main() {
     expect(viewModel.error, isNotEmpty);
   });
 
-  test('should update state and fetch local data on remote fetch failure', () async {
+  test('should update state and fetch local data on remote fetch failure',
+      () async {
     final currentDate = DateTime.now();
     final startDate = currentDate.subtract(const Duration(days: 7));
     final endDate = currentDate;
@@ -76,8 +75,8 @@ void main() {
       ),
     ];
 
-    when(mockDataManager.getAstronomyPictures(startDate, endDate))
-        .thenThrow(RemoteDataException());
+    when(mockDataManager.getAstronomyPictures(any, any))
+        .thenAnswer((_) async => throw RemoteDataException());
     when(mockDataManager.getLocalAstronomyPictures())
         .thenAnswer((_) async => localApodList);
 
@@ -85,21 +84,46 @@ void main() {
 
     expect(viewModel.isFetchingData, false);
     expect(viewModel.apodList, localApodList);
-    expect(viewModel.error, isEmpty);
+    expect(viewModel.error,
+        "Failed to fetch remote data. Please check your internet connection.");
   });
 
   test('should update state when unexpected error occurs', () async {
-    final currentDate = DateTime.now();
-    final startDate = currentDate.subtract(const Duration(days: 7));
-    final endDate = currentDate;
-
-    when(mockDataManager.getAstronomyPictures(startDate, endDate))
-        .thenThrow(Exception());
+    when(mockDataManager.getAstronomyPictures(any, any))
+        .thenAnswer((_) async => throw Exception());
 
     await viewModel.getAstronomyPictures();
 
     expect(viewModel.isFetchingData, false);
     expect(viewModel.apodList, []);
-    expect(viewModel.error, '');
+    expect(viewModel.error, "An unexpected error occurred.");
+  });
+
+  // Search by terms
+  test('searchByTerm updates apod list', () async {
+    const searchTerm = '2';
+    final apodList = [
+      Apod(
+        title: 'Title 1',
+        date: '2023-08-01',
+        description: 'Description 1',
+        imageUrl: 'https://example.com/image1.jpg',
+      ),
+      Apod(
+        title: 'Title 2',
+        date: '2023-08-02',
+        description: 'Description 2',
+        imageUrl: 'https://example.com/image2.jpg',
+      ),
+    ];
+
+    when(mockDataManager.getAstronomyPictures(any, any))
+        .thenAnswer((_) async => apodList);
+
+    await viewModel.getAstronomyPictures();
+    viewModel.searchByTerm(searchTerm);
+
+    expect(viewModel.apodList, [apodList[1]]);
+    expect(viewModel.searchTerm, "2");
   });
 }

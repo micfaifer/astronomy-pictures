@@ -10,7 +10,9 @@ class ApodViewModel extends ChangeNotifier {
       : _apodDataManager = dataManager;
 
   String _searchTerm = "";
-  List<Apod>? _apodList;
+  String get searchTerm => _searchTerm;
+
+  List<Apod>? _apodList = [];
   String _error = "";
   bool _isFetchingData = false;
 

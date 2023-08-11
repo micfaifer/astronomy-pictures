@@ -1,17 +1,35 @@
+import 'package:astronomy_pictures/views/widgets/search_bar/date_range_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../models/apod.dart';
 import '../viewmodels/apod_viewmodel.dart';
+import 'image_detail_screen.dart';
 import 'widgets/list/apod_list_item.dart';
-import 'widgets/search_app_bar.dart';
+import 'widgets/search_bar/search_app_bar.dart';
 
 class ApodListScreen extends StatelessWidget {
   const ApodListScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: SearchAppBar(),
-      body: ApodListView(),
+    var viewModel = Provider.of<ApodViewModel>(context, listen: false);
+
+    return Scaffold(
+      appBar: SearchAppBar(
+        actions: [
+          DateRangePickerButton(
+            availableDateTimeRange: viewModel.availableDateTimeRange,
+            selectedDateRange: viewModel.selectedDateRange,
+            onDateRangeSelected: (selectedDateRange) {
+              viewModel.selectedDateRange = selectedDateRange;
+            },
+          ),
+        ],
+        onSearchTextChanged: (String value) {
+          viewModel.searchByTerm(value);
+        },
+      ),
+      body: const ApodListView(),
     );
   }
 }
@@ -89,8 +107,29 @@ class ApodListViewState extends State<ApodListView> {
       itemCount: viewModel.apodList!.length,
       itemBuilder: (context, index) {
         final apodData = viewModel.apodList![index];
-        return ApodListItem(apodData: apodData);
+        return ApodListItem(
+          title: apodData.title,
+          date: apodData.date,
+          imageUrl: apodData.imageUrl,
+          onTap: () {
+            _navigateToDetailScreen(context, apodData);
+          },
+        );
       },
+    );
+  }
+
+  void _navigateToDetailScreen(BuildContext context, Apod apod) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ImageDetailScreen(
+          imageUrl: apod.imageUrl,
+          title: apod.title,
+          date: apod.date,
+          description: apod.description,
+        ),
+      ),
     );
   }
 }

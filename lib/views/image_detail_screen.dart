@@ -1,11 +1,19 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import '../models/apod.dart';
 
 class ImageDetailScreen extends StatelessWidget {
-  final Apod apodData;
+  final String imageUrl;
+  final String title;
+  final String date;
+  final String description;
 
-  const ImageDetailScreen(this.apodData, {Key? key}) : super(key: key);
+  const ImageDetailScreen({
+    required this.imageUrl,
+    required this.title,
+    required this.date,
+    required this.description,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,21 +28,21 @@ class ImageDetailScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CachedNetworkImage(
-                imageUrl: apodData.imageUrl,
+                imageUrl: imageUrl,
                 placeholder: (context, url) =>
                     const CircularProgressIndicator(),
                 errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
               const SizedBox(height: 16),
               Text(
-                apodData.title,
+                title,
                 style:
                     const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
-              Text(apodData.date),
+              Text(date),
               const SizedBox(height: 8),
-              Text(apodData.description),
+              Text(description),
             ],
           ),
         ),

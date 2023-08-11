@@ -11,6 +11,7 @@ class SearchTextField extends StatefulWidget {
 
 class SearchTextFieldState extends State<SearchTextField> {
   final TextEditingController _textEditingController = TextEditingController();
+  bool _isClearButtonVisible = false;
 
   @override
   void initState() {
@@ -25,7 +26,18 @@ class SearchTextFieldState extends State<SearchTextField> {
   }
 
   void _onTextChanged() {
-    setState(() {});
+    setState(() {
+      widget.onChanged(_textEditingController.text);
+      _isClearButtonVisible = _textEditingController.text.isNotEmpty;
+    });
+  }
+
+  void _clearText() {
+    _textEditingController.clear();
+    widget.onChanged('');
+    setState(() {
+      _isClearButtonVisible = false;
+    });
   }
 
   @override
@@ -42,19 +54,14 @@ class SearchTextFieldState extends State<SearchTextField> {
           borderSide: BorderSide.none,
         ),
         contentPadding: const EdgeInsets.symmetric(horizontal: 8),
-        suffixIcon: _textEditingController.text.isNotEmpty
-            ? IconButton(
-                icon: const Icon(Icons.clear),
-                onPressed: () {
-                  setState(() {
-                    _textEditingController.clear();
-                    widget.onChanged('');
-                  });
-                },
-              )
-            : null,
+        suffixIcon: Visibility(
+          visible: _isClearButtonVisible,
+          child: IconButton(
+            icon: const Icon(Icons.clear),
+            onPressed: _clearText,
+          ),
+        ),
       ),
-      onChanged: widget.onChanged,
     );
   }
 }

@@ -15,7 +15,10 @@ class DateRangePickerButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: const Icon(Icons.date_range),
+      icon: const Icon(
+        Icons.date_range,
+        color: Colors.black,
+      ),
       onPressed: () {
         _selectDateRange(context);
       },

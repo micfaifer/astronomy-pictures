@@ -17,6 +17,7 @@ class SearchAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      backgroundColor: Colors.white,
       title: Padding(
         padding: const EdgeInsets.all(10),
         child: SearchTextField(

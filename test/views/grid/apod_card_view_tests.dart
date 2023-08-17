@@ -1,4 +1,4 @@
-import 'package:astronomy_pictures/views/widgets/list/apod_list_item.dart';
+import 'package:astronomy_pictures/views/widgets/grid/apod_card_view.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -14,7 +14,7 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         home: Scaffold(
-          body: ApodListItem(
+          body: ApodCardView(
             title: title,
             date: date,
             imageUrl: imageUrl,
@@ -41,7 +41,7 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         home: Scaffold(
-          body: ApodListItem(
+          body: ApodCardView(
             title: 'Title',
             date: '2023-08-10',
             imageUrl: 'url',

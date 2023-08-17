@@ -18,34 +18,42 @@ class ImageDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Image Detail'),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CachedNetworkImage(
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            expandedHeight: 400.0,
+            pinned: true,
+            flexibleSpace: FlexibleSpaceBar(
+              background: CachedNetworkImage(
                 imageUrl: imageUrl,
-                placeholder: (context, url) =>
-                    const CircularProgressIndicator(),
-                errorWidget: (context, url, error) => const Icon(Icons.error),
+                fit: BoxFit.cover,
               ),
-              const SizedBox(height: 16),
-              Text(
-                title,
-                style:
-                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 8),
-              Text(date),
-              const SizedBox(height: 8),
-              Text(description),
-            ],
+            ),
           ),
-        ),
+          SliverList(
+            delegate: SliverChildListDelegate([
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(date),
+                    const SizedBox(height: 8),
+                    Text(description),
+                  ],
+                ),
+              ),
+            ]),
+          ),
+        ],
       ),
     );
   }

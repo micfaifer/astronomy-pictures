@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../../../models/apod.dart';
 import '../../../viewmodels/apod_viewmodel.dart';
 import '../../image_detail_screen.dart';
-import 'apod_card_item.dart';
+import 'apod_card_view.dart';
 
 class ApodGridView extends StatefulWidget {
   const ApodGridView({Key? key}) : super(key: key);

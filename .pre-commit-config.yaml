@@ -1,0 +1,15 @@
+repos:
+-   repo: local
+    hooks:
+    -   id: flutter-test
+        name: Run Flutter Tests
+        language: system
+        entry: flutter
+        args: ['test']
+        pass_filenames: false
+    -   id: flutter-analyze
+        name: Run Flutter Analyze
+        language: system
+        entry: flutter
+        args: ['analyze']
+        pass_filenames: false

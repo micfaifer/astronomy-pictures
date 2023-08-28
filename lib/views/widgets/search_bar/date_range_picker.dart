@@ -15,10 +15,8 @@ class DateRangePickerButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: const Icon(
-        Icons.date_range,
-        color: Colors.black,
-      ),
+      padding: EdgeInsets.zero,
+      icon: const Icon(Icons.date_range),
       onPressed: () {
         _selectDateRange(context);
       },
@@ -27,13 +25,12 @@ class DateRangePickerButton extends StatelessWidget {
 
   void _selectDateRange(BuildContext context) async {
     final DateTimeRange? result = await showDateRangePicker(
-      context: context,
-      firstDate: availableDateTimeRange.start,
-      lastDate: availableDateTimeRange.end,
-      currentDate: DateTime.now(),
-      initialDateRange: selectedDateRange,
-      saveText: "Done",
-    );
+        context: context,
+        firstDate: availableDateTimeRange.start,
+        lastDate: availableDateTimeRange.end,
+        currentDate: DateTime.now(),
+        initialDateRange: selectedDateRange,
+        saveText: "Done");
     if (result != null) {
       onDateRangeSelected(result);
     }

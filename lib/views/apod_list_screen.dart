@@ -13,6 +13,7 @@ class ApodListScreen extends StatelessWidget {
     var viewModel = Provider.of<ApodViewModel>(context, listen: false);
 
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: SearchAppBar(
         actions: [
           DateRangePickerButton(

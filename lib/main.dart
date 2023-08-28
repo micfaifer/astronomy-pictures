@@ -1,5 +1,7 @@
 import 'package:astronomy_pictures/data/apod_service.dart';
 import 'package:astronomy_pictures/data/data_manager.dart';
+import 'package:astronomy_pictures/theme/dark_theme.dart';
+import 'package:astronomy_pictures/theme/light_theme.dart';
 import 'package:astronomy_pictures/viewmodels/apod_viewmodel.dart';
 import 'package:astronomy_pictures/views/apod_list_screen.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +22,8 @@ class MyApp extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
           return MaterialApp(
-            theme: ThemeData(primarySwatch: Colors.blue),
+            theme: lightTheme,
+            darkTheme: darkTheme,
             home: const Center(child: CircularProgressIndicator()),
           );
         }
@@ -32,7 +35,8 @@ class MyApp extends StatelessWidget {
           create: (context) => ApodViewModel(dataManager: dataManager),
           child: MaterialApp(
             title: 'NASA APOD App',
-            theme: ThemeData(primarySwatch: Colors.blue),
+            theme: lightTheme,
+            darkTheme: darkTheme,
             home: const ApodListScreen(),
           ),
         );

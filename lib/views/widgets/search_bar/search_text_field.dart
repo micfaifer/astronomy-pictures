@@ -48,7 +48,6 @@ class SearchTextFieldState extends State<SearchTextField> {
       decoration: InputDecoration(
         hintText: 'Search title. Eg: Moon',
         filled: true,
-        fillColor: Colors.grey[200],
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
           borderSide: BorderSide.none,
